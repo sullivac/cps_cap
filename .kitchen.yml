@@ -1,26 +1,32 @@
 ---
+# Add this section from starter kit
 driver:
-  name: vagrant
+  name: ec2
+  retryable_tries: 180
 
 provisioner:
   name: chef_zero
-  # You may wish to disable always updating cookbooks in CI or other testing environments.
-  # For example:
-  #   always_update_cookbooks: <%= !ENV['CI'] %>
-  always_update_cookbooks: true
+
+transport:
+  # ssh_key: ~/.ssh/path-to-pem.pem
+  username: Administrator
+  elevated: true
 
 verifier:
   name: inspec
 
 platforms:
-  - name: ubuntu-16.04
-  - name: centos-7
+  - name: windows-2016
+    transport:
+      name: winrm
+    driver:
+      block_device_mappings:
+        - device_name: /dev/sda1
+          ebs:
+            delete_on_termination: true
 
 suites:
   - name: default
     run_list:
       - recipe[cps_cap::default]
-    verifier:
-      inspec_tests:
-        - test/integration/default
     attributes:
