@@ -13,3 +13,9 @@ seven_zip_archive 'Download and extract terraform binary' do
   checksum 'b14dbb9b9b100ddcd516ad426f31a23016ce351d7481407bc91bceb342307826'
   action   :extract
 end
+
+windows_path "Add #{bin_path} to PATH" do
+  path   bin_path
+  action :add
+end
+
